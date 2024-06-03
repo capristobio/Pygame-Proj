@@ -28,9 +28,15 @@ CURSOR_LEFT = pg.transform.scale(
 )
 CURSOR_RIGHT = pg.transform.flip(CURSOR_LEFT, True, False)
 
-# Starting image
-start_image = pg.image.load("images/starting.png")
-start_image = pg.transform.scale(start_image, (1280, 720))
+# Starting screen background
+class Starting(pg.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        
+        start_image = pg.image.load("images/starting.png")
+        start_image = pg.transform.scale(start_image, (1280, 720))
+
+        self.rect = self.image.get_rect()
 
 # Make the class for the player
 class Player(pg.sprite.Sprite):
@@ -100,8 +106,9 @@ def start():
     all_sprites.add(player)
     
     # Game start screen
-    def show_go_screen():
-        screen.blit(start_image, (0,0))
+    starting_bg =  Starting()
+    all_sprites.add(starting_bg)
+    
 
     # --MAIN LOOP--
     while not done:
