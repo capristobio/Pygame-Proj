@@ -28,9 +28,9 @@ CURSOR_LEFT = pg.transform.scale(
 )
 CURSOR_RIGHT = pg.transform.flip(CURSOR_LEFT, True, False)
 
-# TODO: Starting image
-# start_image = pygame.image.load("images/starting.jpg")
-# start_image = pygame.transform.scale(start_image, (1280, 720))
+# Starting image
+start_image = pg.image.load("images/starting.png")
+start_image = pg.transform.scale(start_image, (1280, 720))
 
 
 class Player(pg.sprite.Sprite):
@@ -76,9 +76,9 @@ def start():
     player = Player()
     all_sprites.add(player)
     
-    # TODO: Game start screen
-    # def show_go_screen():
-    #     screen.blit(img variable name, (0,0))
+    # Game start screen
+    def show_go_screen():
+        screen.blit(start_image, (0,0))
 
     # --MAIN LOOP--
     while not done:
