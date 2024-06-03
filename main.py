@@ -28,9 +28,15 @@ CURSOR_LEFT = pg.transform.scale(
 )
 CURSOR_RIGHT = pg.transform.flip(CURSOR_LEFT, True, False)
 
-# Starting image
-start_image = pg.image.load("images/starting.png")
-start_image = pg.transform.scale(start_image, (1280, 720))
+# Starting screen background
+class Starting(pg.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        
+        start_image = pg.image.load("images/starting.png")
+        start_image = pg.transform.scale(start_image, (1280, 720))
+
+        self.rect = start_image.get_rect()
 
 # Make the class for the player
 class Player(pg.sprite.Sprite):
@@ -55,28 +61,56 @@ class Player(pg.sprite.Sprite):
 
         self.last_x = pg.mouse.get_pos()[0]
 
+
 # TODO: Make the class for the icing/cream
-    # When clicked on will be put onto the cake
-class Vanilla(pg.sprite.Sprite):
-    def __init__(self):
-        super().__init__()
+    # When clicked on will spawn onto the cake
+# class Vanilla(pg.sprite.Sprite):
+#     def __init__(self):
+#         super().__init__()
 
-        self.image = van_cream
-        self.rect = self.image.get_rect()
+#         self.image = van_cream
+#         self.rect = self.image.get_rect()
 
-class Chocolate(pg.sprite.Sprite):
-    def __init__(self):
-        super().__init__()
+# Spawn the image at one specific spot
+# When clicked on will appear on the cake in the middle
 
-        self.image = choco_cream
-        self.rect = self.image.get_rect()
+# class Chocolate(pg.sprite.Sprite):
+#     def __init__(self):
+#         super().__init__()
 
-class Strawberry(pg.sprite.Sprite):
-    def __init__(self):
-        super().__init__()
+#         self.image = choco_cream
+#         self.rect = self.image.get_rect()
 
-        self.image = straw_cream
-        self.rect = self.image.get_rect()
+# class Strawberry(pg.sprite.Sprite):
+#     def __init__(self):
+#         super().__init__()
+
+#         self.image = straw_cream
+#         self.rect = self.image.get_rect()
+
+
+# TODO: Make the class for the toppings
+    # When clicked on will will spawn onto the cake on top of the icing/cream
+# class Cherry(pg.sprite.Sprite):
+#     def __init__(self):
+#         super().__init__()
+
+#         self.image = cherry
+#         self.rect = self.image.get_rect()
+
+# class Flakes(pg.sprite.Sprite):
+#     def __init__(self):
+#         super().__init__()
+
+#         self.image = choco_flakes
+#         self.rect = self.image.get_rect()
+
+# class Straw(pg.sprite.Sprite):
+#     def __init__(self):
+#         super().__init__()
+
+#         self.image = straw_berry
+#         self.rect = self.image.get_rect()
 
 
 def start():
@@ -100,8 +134,9 @@ def start():
     all_sprites.add(player)
     
     # Game start screen
-    def show_go_screen():
-        screen.blit(start_image, (0,0))
+    starting_bg =  Starting()
+    all_sprites.add(starting_bg)
+    
 
     # --MAIN LOOP--
     while not done:
