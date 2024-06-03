@@ -32,7 +32,7 @@ CURSOR_RIGHT = pg.transform.flip(CURSOR_LEFT, True, False)
 start_image = pg.image.load("images/starting.png")
 start_image = pg.transform.scale(start_image, (1280, 720))
 
-
+# Make the class for the player
 class Player(pg.sprite.Sprite):
     def __init__(self):
         super().__init__()
@@ -54,6 +54,29 @@ class Player(pg.sprite.Sprite):
         self.rect.center = cur_x
 
         self.last_x = pg.mouse.get_pos()[0]
+
+# TODO: Make the class for the icing/cream
+    # When clicked on will be put onto the cake
+class Vanilla(pg.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+
+        self.image = van_cream
+        self.rect = self.image.get_rect()
+
+class Chocolate(pg.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+
+        self.image = choco_cream
+        self.rect = self.image.get_rect()
+
+class Strawberry(pg.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+
+        self.image = straw_cream
+        self.rect = self.image.get_rect()
 
 
 def start():
