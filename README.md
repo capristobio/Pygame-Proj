@@ -8,6 +8,8 @@ The final pygame project for SLSS Programming.
 
 Run 'python main.py' to start the game.
 
+Click 'SPACE' to start
+
 ### Features
 
 ### Known Bugs

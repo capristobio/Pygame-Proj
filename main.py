@@ -112,6 +112,7 @@ class Player(pg.sprite.Sprite):
 #         self.image = straw_berry
 #         self.rect = self.image.get_rect()
 
+
 def display_start_screen(screen: pg.Surface):
     """Display the start screen"""
     sprites = pg.sprite.Group()
@@ -142,6 +143,7 @@ def start():
     clock = pg.time.Clock()
 
     background = pg.image.load("./images/bg.png")
+    cake = pg.image.load("./images/cake.png")
 
     # Display name
     pg.display.set_caption("Cake Maker")
@@ -168,6 +170,7 @@ def start():
 
         # --- Draw items
         screen.blit(background, (0, 0))
+        screen.blit(cake, (450, 300))
 
         all_sprites.draw(screen)
 
