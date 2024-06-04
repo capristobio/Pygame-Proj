@@ -137,6 +137,9 @@ def start():
     starting_bg =  Starting()
     all_sprites.add(starting_bg)
     
+    starting_bg =  Starting()
+    all_sprites.add(starting_bg)
+    
 
     # --MAIN LOOP--
     while not done:
