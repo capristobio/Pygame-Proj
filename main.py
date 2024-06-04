@@ -34,9 +34,9 @@ class Starting(pg.sprite.Sprite):
         super().__init__()
         
         start_image = pg.image.load("images/starting.png")
-        start_image = pg.transform.scale(start_image, (1280, 720))
+        self.image = pg.transform.scale(start_image, (1280, 720))
 
-        self.rect = start_image.get_rect()
+        self.rect = self.image.get_rect()
 
 # Make the class for the player
 class Player(pg.sprite.Sprite):
@@ -112,6 +112,24 @@ class Player(pg.sprite.Sprite):
 #         self.image = straw_berry
 #         self.rect = self.image.get_rect()
 
+def display_start_screen(screen: pg.Surface):
+    """Display the start screen"""
+    sprites = pg.sprite.Group()
+    sprites.add(Starting())
+
+    while True:
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                done = True
+            if event.type == pg.KEYDOWN:
+                if event.key == pg.K_SPACE:
+                    return
+        
+        sprites.draw(screen)
+
+        pg.display.flip()
+        
+
 
 def start():
     """Environment Setup and Game Loop"""
@@ -123,6 +141,8 @@ def start():
     done = False
     clock = pg.time.Clock()
 
+    background = pg.image.load("./images/bg.png")
+
     # Display name
     pg.display.set_caption("Cake Maker")
 
@@ -132,14 +152,9 @@ def start():
     # Player sprite object
     player = Player()
     all_sprites.add(player)
-    
-    # Game start screen
-    starting_bg =  Starting()
-    all_sprites.add(starting_bg)
-    
-    starting_bg =  Starting()
-    all_sprites.add(starting_bg)
-    
+
+
+    display_start_screen(screen)
 
     # --MAIN LOOP--
     while not done:
@@ -152,7 +167,7 @@ def start():
         all_sprites.update()
 
         # --- Draw items
-        screen.fill(BLACK)
+        screen.blit(background, (0, 0))
 
         all_sprites.draw(screen)
 
