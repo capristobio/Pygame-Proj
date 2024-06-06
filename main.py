@@ -81,21 +81,22 @@ class Vanilla(pg.sprite.Sprite):
 
         self.image = van_tube
         self.rect = self.image.get_rect()
+        self.rect.x, self.rect.y = 50, HEIGHT // 2
 
 
-# class Chocolate(pg.sprite.Sprite):
-#     def __init__(self):
-#         super().__init__()
+class Chocolate(pg.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
 
-#         self.image = choco_tube
-#         self.rect = self.image.get_rect()
+        self.image = choco_tube
+        self.rect = self.image.get_rect()
 
-# class Strawberry(pg.sprite.Sprite):
-#     def __init__(self):
-#         super().__init__()
+class Strawberry(pg.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
 
-#         self.image = straw_tube
-#         self.rect = self.image.get_rect()
+        self.image = straw_tube
+        self.rect = self.image.get_rect()
 
 
 # TODO: Make the class for the toppings
@@ -164,6 +165,10 @@ def start():
     player = Player()
     all_sprites.add(player)
 
+    # Vanilla
+    tube = Vanilla()
+    all_sprites.add(tube)
+
 
     display_start_screen(screen)
 
@@ -179,7 +184,7 @@ def start():
 
         # --- Draw items
         screen.blit(background, (0, 0))
-        screen.blit(cake, (450, 300))
+        screen.blit(cake, (450, 200))
 
         all_sprites.draw(screen)
 
