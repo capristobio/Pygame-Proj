@@ -18,7 +18,15 @@ WIDTH = 1280  # Pixels
 HEIGHT = 720
 SCREEN_SIZE = (WIDTH, HEIGHT)
 
-#TODO: font
+    # Piping tubes
+van_tube = pg.image.load("./images/van_tube.png")
+choco_tube = pg.image.load("./images/choco_tube.png")
+straw_tube = pg.image.load("./images/straw_tube.png")
+
+    # Creams
+van_cream = pg.image.load("./images/van_cream.png")
+choco_cream = pg.image.load("./images/choco_cream.png")
+straw_cream = pg.image.load("./images/straw_cream.png")
 
 # Scale the image down
 CURSOR = pg.image.load("./images/cursor.png")
@@ -27,6 +35,8 @@ CURSOR_LEFT = pg.transform.scale(
     (CURSOR.get_width() // 25, CURSOR.get_height() // 25)
 )
 CURSOR_RIGHT = pg.transform.flip(CURSOR_LEFT, True, False)
+
+
 
 # Starting screen background
 class Starting(pg.sprite.Sprite):
@@ -63,29 +73,28 @@ class Player(pg.sprite.Sprite):
 
 
 # TODO: Make the class for the icing/cream
-    # When clicked on will spawn onto the cake
-# class Vanilla(pg.sprite.Sprite):
-#     def __init__(self):
-#         super().__init__()
+    # When piping tube is clicked on, cream will spawn onto the cake
+    
+class Vanilla(pg.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
 
-#         self.image = van_cream
-#         self.rect = self.image.get_rect()
+        self.image = van_tube
+        self.rect = self.image.get_rect()
 
-# Spawn the image at one specific spot
-# When clicked on will appear on the cake in the middle
 
 # class Chocolate(pg.sprite.Sprite):
 #     def __init__(self):
 #         super().__init__()
 
-#         self.image = choco_cream
+#         self.image = choco_tube
 #         self.rect = self.image.get_rect()
 
 # class Strawberry(pg.sprite.Sprite):
 #     def __init__(self):
 #         super().__init__()
 
-#         self.image = straw_cream
+#         self.image = straw_tube
 #         self.rect = self.image.get_rect()
 
 
