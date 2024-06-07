@@ -28,6 +28,17 @@ van_cream = pg.image.load("./images/van_cream.png")
 choco_cream = pg.image.load("./images/choco_cream.png")
 straw_cream = pg.image.load("./images/straw_cream.png")
 
+    #TODO: Toppings on table
+# cherry = pg.image.load("./images/")
+# choco_flakes = pg.image.load("./images/")
+# straw_berry = pg.image.load("./images/")\
+
+    #TODO: Toppings on cake
+# cherry_top = pg.image.load("./images/")
+# choco_top = pg.image.load("./images/")
+# straw_top = pg.image.load("./images/")
+
+
 # Scale the image down
 CURSOR = pg.image.load("./images/cursor.png")
 CURSOR_LEFT = pg.transform.scale(
@@ -47,6 +58,7 @@ class Starting(pg.sprite.Sprite):
         self.image = pg.transform.scale(start_image, (1280, 720))
 
         self.rect = self.image.get_rect()
+
 
 # Make the class for the player
 class Player(pg.sprite.Sprite):
@@ -72,17 +84,16 @@ class Player(pg.sprite.Sprite):
         self.last_x = pg.mouse.get_pos()[0]
 
 
-# TODO: Make the class for the icing/cream
-    # When piping tube is clicked on, cream will spawn onto the cake
-    
+# Class for the piping tubes
 class Vanilla(pg.sprite.Sprite):
     def __init__(self):
         super().__init__()
 
         self.image = van_tube
         self.rect = self.image.get_rect()
-        self.rect.x, self.rect.y = 50, HEIGHT // 2
+        self.rect.x, self.rect.y = 20, 430
 
+        self.clicked = False
 
 class Chocolate(pg.sprite.Sprite):
     def __init__(self):
@@ -90,6 +101,9 @@ class Chocolate(pg.sprite.Sprite):
 
         self.image = choco_tube
         self.rect = self.image.get_rect()
+        self.rect.x, self.rect.y = 130, 400
+
+        self.clicked = False
 
 class Strawberry(pg.sprite.Sprite):
     def __init__(self):
@@ -97,30 +111,44 @@ class Strawberry(pg.sprite.Sprite):
 
         self.image = straw_tube
         self.rect = self.image.get_rect()
+        self.rect.x, self.rect.y = 250, 370
+
+        self.clicked = False
 
 
-# TODO: Make the class for the toppings
+
+# TODO: Class for the toppings
     # When clicked on will will spawn onto the cake on top of the icing/cream
 # class Cherry(pg.sprite.Sprite):
 #     def __init__(self):
 #         super().__init__()
 
 #         self.image = cherry
-#         self.rect = self.image.get_rect()
+        # self.rect = self.image.get_rect()
+        # self.rect.x, self.rect.y = x, 430
+
+        # self.clicked = False
 
 # class Flakes(pg.sprite.Sprite):
 #     def __init__(self):
 #         super().__init__()
 
 #         self.image = choco_flakes
-#         self.rect = self.image.get_rect()
+        # self.rect = self.image.get_rect()
+        # self.rect.x, self.rect.y = x, 400
+
+        # self.clicked = False
 
 # class Straw(pg.sprite.Sprite):
 #     def __init__(self):
 #         super().__init__()
 
 #         self.image = straw_berry
-#         self.rect = self.image.get_rect()
+        # self.rect = self.image.get_rect()
+        # self.rect.x, self.rect.y = x, 370
+
+        # self.clicked = False
+
 
 
 def display_start_screen(screen: pg.Surface):
@@ -160,16 +188,28 @@ def start():
 
     # --SPRITES--
     all_sprites = pg.sprite.Group()
+    tube_sprites = pg.sprite.Group()
 
     # Player sprite object
     player = Player()
     all_sprites.add(player)
 
-    # Vanilla
-    tube = Vanilla()
-    all_sprites.add(tube)
+    # Vanilla tube
+    vanilla_tube = Vanilla()
+    all_sprites.add(vanilla_tube)
+    tube_sprites.add(vanilla_tube)
 
+    # Choco tube
+    choco_tube = Chocolate()
+    all_sprites.add(choco_tube)
+    tube_sprites.add(choco_tube)
 
+    # Strawberry tube
+    strawberry_tube = Strawberry()
+    all_sprites.add(strawberry_tube)
+    tube_sprites.add(strawberry_tube)
+
+    # Starting screen
     display_start_screen(screen)
 
     # --MAIN LOOP--
@@ -179,12 +219,27 @@ def start():
             if event.type == pg.QUIT:
                 done = True
 
+            if event.type == pg.MOUSEBUTTONDOWN:
+                for tube in tube_sprites:
+                    if tube.rect.collidepoint(pg.mouse.get_pos()):
+                        tube.clicked = True
+                    
+
         # --- Update the world state
         all_sprites.update()
 
         # --- Draw items
         screen.blit(background, (0, 0))
         screen.blit(cake, (450, 200))
+
+        if vanilla_tube.clicked:
+            screen.blit(van_cream, (450, 150))
+
+        if choco_tube.clicked:
+            screen.blit(choco_cream, (448, 148))
+
+        if strawberry_tube.clicked:
+            screen.blit(straw_cream, (446, 150))
 
         all_sprites.draw(screen)
 
