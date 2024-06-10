@@ -2,7 +2,6 @@
 # Author: Yuan Yuan
 
 import pygame as pg
-import random
 
 # --CONSTANTS--
     # COLOURS
@@ -31,12 +30,12 @@ straw_cream = pg.image.load("./images/straw_cream.png")
     #TODO: Toppings on table
 # cherry = pg.image.load("./images/")
 # choco_flakes = pg.image.load("./images/")
-# straw_berry = pg.image.load("./images/")\
+# straw_berry = pg.image.load("./images/")
 
-    #TODO: Toppings on cake
-# cherry_top = pg.image.load("./images/")
-# choco_top = pg.image.load("./images/")
-# straw_top = pg.image.load("./images/")
+    #Toppings on cake
+cherry_top = pg.image.load("./images/cherry.png")
+choco_top = pg.image.load("./images/choco_flakes.png")
+straw_top = pg.image.load("./images/berry.png")
 
 
 # Scale the image down
@@ -49,7 +48,7 @@ CURSOR_RIGHT = pg.transform.flip(CURSOR_LEFT, True, False)
 
 
 
-# Starting screen background
+# Starting screen display image
 class Starting(pg.sprite.Sprite):
     def __init__(self):
         super().__init__()
@@ -116,6 +115,15 @@ class Strawberry(pg.sprite.Sprite):
         self.clicked = False
 
 
+class TubeSprites(pg.sprite.Group):
+    """Clicks the tube and unclicks the others."""
+    def click(self, tube):
+        for t in self.sprites():
+            if t is not tube:
+                t.clicked = False
+            else:
+                t.clicked = True
+
 
 # TODO: Class for the toppings
     # When clicked on will will spawn onto the cake on top of the icing/cream
@@ -150,7 +158,7 @@ class Strawberry(pg.sprite.Sprite):
         # self.clicked = False
 
 
-
+# Starting Screen display
 def display_start_screen(screen: pg.Surface):
     """Display the start screen"""
     sprites = pg.sprite.Group()
@@ -188,11 +196,7 @@ def start():
 
     # --SPRITES--
     all_sprites = pg.sprite.Group()
-    tube_sprites = pg.sprite.Group()
-
-    # Player sprite object
-    player = Player()
-    all_sprites.add(player)
+    tube_sprites = TubeSprites()
 
     # Vanilla tube
     vanilla_tube = Vanilla()
@@ -209,6 +213,10 @@ def start():
     all_sprites.add(strawberry_tube)
     tube_sprites.add(strawberry_tube)
 
+    # Player sprite object
+    player = Player()
+    all_sprites.add(player)
+
     # Starting screen
     display_start_screen(screen)
 
@@ -222,7 +230,7 @@ def start():
             if event.type == pg.MOUSEBUTTONDOWN:
                 for tube in tube_sprites:
                     if tube.rect.collidepoint(pg.mouse.get_pos()):
-                        tube.clicked = True
+                        tube_sprites.click(tube)
                     
 
         # --- Update the world state
@@ -232,6 +240,7 @@ def start():
         screen.blit(background, (0, 0))
         screen.blit(cake, (450, 200))
 
+        #   If piping tubes are clicked the cream pops up on cake
         if vanilla_tube.clicked:
             screen.blit(van_cream, (450, 150))
 
@@ -240,6 +249,9 @@ def start():
 
         if strawberry_tube.clicked:
             screen.blit(straw_cream, (446, 150))
+
+        #TODO   If toppings clicked it pops up on cake
+
 
         all_sprites.draw(screen)
 
