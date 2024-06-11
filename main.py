@@ -2,6 +2,7 @@
 # Author: Yuan Yuan
 
 import pygame as pg
+from pygame import mixer
 
 # --CONSTANTS--
     # COLOURS
@@ -46,6 +47,8 @@ CURSOR_LEFT = pg.transform.scale(
 )
 CURSOR_RIGHT = pg.transform.flip(CURSOR_LEFT, True, False)
 
+# Import music
+pg.mixer.init()
 
 
 # Starting screen display image
@@ -188,6 +191,7 @@ def display_start_screen(screen: pg.Surface):
 
         pg.display.flip()
         
+# TODO: starting pop up, OK button, ending pop up
 
 
 def start():
@@ -254,6 +258,12 @@ def start():
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 done = True
+            
+            if event.type == pg.KEYDOWN:
+                if event.key == pg.K_SPACE:
+                    pg.mixer.music.load('sounds/ftp.mp3')
+                    pg.mixer.music.play()
+
 
             if event.type == pg.MOUSEBUTTONDOWN:
                 for tube in tube_sprites:
