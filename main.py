@@ -47,9 +47,9 @@ CURSOR_LEFT = pg.transform.scale(
 )
 CURSOR_RIGHT = pg.transform.flip(CURSOR_LEFT, True, False)
 
-# Import music
-pg.mixer.init()
-
+end_pic = pg.image.load("./images/end_pop.png")
+ok_pic = pg.image.load("./images/ok.png")
+start_pic = pg.image.load("./images/start_pop.png")
 
 # Starting screen display image
 class Starting(pg.sprite.Sprite):
@@ -175,23 +175,52 @@ class Straw(Topping):
 
 # Starting Screen display
 def display_start_screen(screen: pg.Surface):
-    """Display the start screen"""
+    """Display the start screen
+    
+    Returns:
+        False if quitting"""
     sprites = pg.sprite.Group()
     sprites.add(Starting())
 
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT:
-                done = True
+                return False
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_SPACE:
-                    return
+                    return True
         
         sprites.draw(screen)
 
         pg.display.flip()
         
-# TODO: starting pop up, OK button, ending pop up
+# TODO: starting pop up
+# start_pic
+
+class Button(pg.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+
+        self.clicked = False
+
+    def click(self):
+        print("clicked")
+        if self.clicked:
+            self.clicked = False
+        else:
+            self.clicked = True
+
+class Ok_button(Button):
+    """OK button displayed on screen that shows prompt when clicked"""
+    def __init__(self):
+        super().__init__()
+
+        self.image = pg.image.load("./images/ok.png")
+        self.rect = self.image.get_rect()
+        self.rect.x, self.rect.y = 540, 20
+
+        self.clicked = False
+
 
 
 def start():
@@ -214,6 +243,9 @@ def start():
     all_sprites = pg.sprite.Group()
     tube_sprites = TubeSprites()
     topping_sprites = pg.sprite.Group()
+    
+    ok_button = Ok_button()
+    all_sprites.add(ok_button)
 
     # Vanilla tube
     vanilla_tube = Vanilla()
@@ -250,7 +282,13 @@ def start():
     all_sprites.add(player)
 
     # Starting screen
-    display_start_screen(screen)
+    if not display_start_screen(screen):
+        done = True
+
+    #TODO: pg.mixer.init()
+    # bgmusic = pg.mixer.Sound("./sounds/ftp.mp3")
+    # bgmusic.play()
+    
 
     # --MAIN LOOP--
     while not done:
@@ -258,12 +296,6 @@ def start():
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 done = True
-            
-            if event.type == pg.KEYDOWN:
-                if event.key == pg.K_SPACE:
-                    pg.mixer.music.load('sounds/ftp.mp3')
-                    pg.mixer.music.play()
-
 
             if event.type == pg.MOUSEBUTTONDOWN:
                 for tube in tube_sprites:
@@ -273,6 +305,22 @@ def start():
                 for topping in topping_sprites:
                     if topping.rect.collidepoint(pg.mouse.get_pos()):
                         topping.click()
+                
+                if ok_button.rect.collidepoint(pg.mouse.get_pos()):
+                    ok_button.click()
+
+            if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
+                pg.quit()
+
+            #TODO: 
+            #  if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
+                 
+
+
+
+                   
+                
+
                     
 
         # --- Update the world state
@@ -302,8 +350,12 @@ def start():
         if strawberry_topping.clicked:
             screen.blit(straw_top, (450, 150))
 
+        if ok_button.clicked:
+            screen.blit(end_pic, (425, 200))
 
 
+
+        # Draw all sprites on the screen
         all_sprites.draw(screen)
 
         # Update the screen with anything new
@@ -311,7 +363,7 @@ def start():
 
         # --- Tick the Clock
         clock.tick(60)  # 60 fps
-
+    
 
 def main():
     start()
