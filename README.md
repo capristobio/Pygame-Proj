@@ -19,7 +19,10 @@ Click 'SPACE' to start
 - Hand drawn images
 
 
+
 ### Known Bugs
 
 
 ### Attribution
+- Mr. Ubail's help
+- Sound converted from TikTok

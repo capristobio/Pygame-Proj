@@ -195,7 +195,7 @@ def display_start_screen(screen: pg.Surface):
         pg.display.flip()
         
 # TODO: starting pop up
-# start_pic
+# start_pic 
 
 class Button(pg.sprite.Sprite):
     def __init__(self):
@@ -285,9 +285,11 @@ def start():
     if not display_start_screen(screen):
         done = True
 
-    #TODO: pg.mixer.init()
-    # bgmusic = pg.mixer.Sound("./sounds/ftp.mp3")
-    # bgmusic.play()
+
+    # Background music
+    pg.mixer.init()
+    bgmusic = pg.mixer.Sound("./sounds/ftp.ogg")
+    bgmusic.play()
     
 
     # --MAIN LOOP--
