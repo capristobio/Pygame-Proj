@@ -38,7 +38,6 @@ cherry_top = pg.image.load("./images/cherry.png")
 choco_top = pg.image.load("./images/choco_flakes.png")
 straw_top = pg.image.load("./images/berry.png")
 
-
 # Scale the image down
 CURSOR = pg.image.load("./images/cursor.png")
 CURSOR_LEFT = pg.transform.scale(
@@ -50,6 +49,8 @@ CURSOR_RIGHT = pg.transform.flip(CURSOR_LEFT, True, False)
 end_pic = pg.image.load("./images/end_pop.png")
 ok_pic = pg.image.load("./images/ok.png")
 start_pic = pg.image.load("./images/start_pop.png")
+
+
 
 # Starting screen display image
 class Starting(pg.sprite.Sprite):
@@ -194,21 +195,30 @@ def display_start_screen(screen: pg.Surface):
 
         pg.display.flip()
         
-# TODO: starting pop up
-# start_pic 
+
+class Pop_up(pg.sprite.Sprite):
+    """Display instruction image"""
+    def __init__(self):
+        super().__init__()
+
+        self.image = start_pic
+        self.rect = self.image.get_rect()
+        self.rect.x, self.rect.y = 425, 140
+
 
 class Button(pg.sprite.Sprite):
+    """"For when the OK button"""
     def __init__(self):
         super().__init__()
 
         self.clicked = False
 
     def click(self):
-        print("clicked")
         if self.clicked:
             self.clicked = False
         else:
             self.clicked = True
+
 
 class Ok_button(Button):
     """OK button displayed on screen that shows prompt when clicked"""
@@ -246,6 +256,9 @@ def start():
     
     ok_button = Ok_button()
     all_sprites.add(ok_button)
+
+    start_popup = Pop_up()
+    all_sprites.add(start_popup)
 
     # Vanilla tube
     vanilla_tube = Vanilla()
@@ -312,18 +325,16 @@ def start():
                     ok_button.click()
 
             if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
-                pg.quit()
+                return
 
-            #TODO: 
-            #  if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
-                 
-
-
-
-                   
-                
-
-                    
+            if event.type == pg.KEYDOWN and event.key == pg.K_SPACE and start_popup:
+                all_sprites.remove(start_popup)
+                del(start_popup)
+                start_popup = False
+            
+            if event.type == pg.KEYDOWN and event.key == pg.K_SPACE and ok_button.clicked:
+                return True
+             
 
         # --- Update the world state
         all_sprites.update()
@@ -354,6 +365,7 @@ def start():
 
         if ok_button.clicked:
             screen.blit(end_pic, (425, 200))
+        
 
 
 
@@ -368,7 +380,9 @@ def start():
     
 
 def main():
-    start()
+    # janky fix but it works
+    while start():
+        start()
 
 
 if __name__ == "__main__":
